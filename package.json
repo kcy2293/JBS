@@ -1,0 +1,30 @@
+{
+  "name": "jbs",
+  "version": "1.0.0",
+  "description": "JB Stock Management System",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kcy2293/JBS.git"
+  },
+  "author": "KCY",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kcy2293/JBS/issues"
+  },
+  "homepage": "https://github.com/kcy2293/JBS#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "errorhandler": "^1.5.0",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "moment": "^2.18.1",
+    "morgan": "^1.8.2",
+    "stylus": "^0.54.5"
+  }
+}
