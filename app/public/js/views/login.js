@@ -2,11 +2,12 @@ $(document).ready(function() {
   var lv = new LoginValidator();
   var lc = new LoginController();
   // main login form //
-  $("#login").ajaxForm({
+  $("#form-login").ajaxForm({
     beforeSubmit : function(formData, jqForm, options) {
       if (lv.validateForm() == false) {
         return false;
       } else {
+        console.log(formData);
         formData.push({
           name: 'remember-me',
           value: $('.button-remember-me-glyph').hasClass('glyphicon-ok')
