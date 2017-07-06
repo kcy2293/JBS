@@ -7,7 +7,6 @@ $(document).ready(function() {
       if (lv.validateForm() == false) {
         return false;
       } else {
-        console.log(formData);
         formData.push({
           name: 'remember-me',
           value: $('.button-remember-me-glyph').hasClass('glyphicon-ok')

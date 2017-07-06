@@ -7,12 +7,31 @@ module.exports = function(app) {
       res.render('account/login', {title: 'Login'});
     } else {
       // attempt automatic login
+      AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
+        if (o != null) {
+          req.session.user = o;
+          res.redirect('/home');
+        } else {
+          res.render('account/login', {title: 'Login'});
+        }
+      });
     }
   });
 
-
   app.post('/', (req, res) => {
-
+    AM.manualLogin(req.body['user'], req.body['pass'], (e, o) => {
+      if (!o) {
+        res.status(400).send(e);
+      } else {
+        req.session.user = o;
+        if (req.body['remember-me'] == 'true') {
+          console.log("set cookie");
+          res.cookie('user', o.user, {maxAge: 900000 });
+          res.cookie('pass', o.pass, {maxAge: 900000 });
+        }
+        res.status(200).send(o);
+      }
+    });
   });
 
   app.get('/signup', (req, res) => {
@@ -32,5 +51,15 @@ module.exports = function(app) {
         res.status(200).send('ok');
       }
     })
+  });
+
+  app.get('/home', (req, res) => {
+    if (req.session.user == null) {
+      res.redirect('/');
+    } else {
+      res.render('home', {
+        title: 'Home'
+      });
+    }
   });
 };

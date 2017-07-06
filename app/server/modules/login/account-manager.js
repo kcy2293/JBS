@@ -29,6 +29,16 @@ db.open((e,d) => {
 
 const accounts = db.collection('accounts');
 
+exports.autoLogin = (user, pass, callback) => {
+  accounts.findOne({user: user}, (e, o) => {
+    if (o) {
+      o.pass == pass ? callback(o) : callback(null);
+    } else {
+      callback(null);
+    }
+  });
+};
+
 exports.manualLogin = (user, pass, callback) => {
   accounts.findOne({user: user}, (e, o) => {
     if (o == null) {
@@ -82,4 +92,10 @@ const md5 = function(str) {
 const saltAndHash = function(pass, callback) {
   let salt = generateSalt();
   callback(salt + md5(pass + salt));
+};
+
+const validatePassword = function(plainPass, hashedPass, callback) {
+  let salt = hashedPass.substr(0, 10);
+  let validHash = salt + md5(plainPass + salt);
+  callback(null, hashedPass  === validHash);
 };
