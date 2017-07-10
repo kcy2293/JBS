@@ -1,4 +1,5 @@
 const AM = require('./modules/login/account-manager');
+const EM = require('./modules/login/email-dispatcher');
 
 module.exports = function(app) {
   app.get('/', (req, res) => {
@@ -51,6 +52,38 @@ module.exports = function(app) {
         res.status(200).send('ok');
       }
     })
+  });
+
+  app.post('/lost-password', (req, res) => {
+    AM.getAccountByEmail(req.body['email'], (o) => {
+      if (o) {
+        console.log(o);
+        EM.dispatchResetPasswordLink(o, (e, m) => {
+          if (!e) {
+            res.status(200).send('ok');
+          } else {
+            for (k in e) console.log('ERROR : ', k, e[k]);
+            res.status(400).send('Unable to dispatch password reset');
+          }
+        });
+      } else {
+        res.status(400).send('email-not-found');
+      }
+    });
+  });
+
+  app.get('/reset-password', (req, res) => {
+    const email = req.query["e"];
+    const passH = req.query["p"];
+
+    AM.validateResetLink(email, passH, (e) => {
+      if (e != 'ok') {
+        res.redirect('/');
+      } else {
+        req.session.reset = { email: email, passHash: passH };
+        res.render('reset', {title : 'Password 재설정'});
+      }
+    });
   });
 
   app.get('/home', (req, res) => {

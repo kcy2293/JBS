@@ -75,6 +75,18 @@ exports.addNewAccount = (newData, callback) => {
   });
 };
 
+exports.getAccountByEmail = (email, callback) => {
+  accounts.findOne({email: email}, (e, o) => {
+    callback(o);
+  });
+};
+
+exports.validateResetLink = (email, passHash, callback) => {
+  accounts.find({ $and: [{email: email, pass:passHash}] }, (e, o) => {
+    callback(o ? 'ok' : null);
+  });
+};
+
 const generateSalt = function() {
     let set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
     let salt = '';
