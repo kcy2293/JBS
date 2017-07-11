@@ -87,6 +87,19 @@ exports.validateResetLink = (email, passHash, callback) => {
   });
 };
 
+exports.updatePassword = (email, newPass, callback) => {
+  accounts.findOne({email: email}, (e, o) => {
+    if (e) {
+      callback(e, null);
+    } else {
+      saltAndHash(newPass, (hash) => {
+        o.pass = hash;
+        accounts.save(o, {safe: true}, callback);
+      });
+    }
+  });
+};
+
 const generateSalt = function() {
     let set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
     let salt = '';

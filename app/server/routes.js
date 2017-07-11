@@ -81,7 +81,21 @@ module.exports = function(app) {
         res.redirect('/');
       } else {
         req.session.reset = { email: email, passHash: passH };
-        res.render('reset', {title : 'Password 재설정'});
+        res.render('account/reset', {title : '비밀번호 재설정'});
+      }
+    });
+  });
+
+  app.post('/reset-password', (req, res) => {
+    let nPass = req.body['pass'];
+    let email = req.session.reset.email;
+
+    req.session.destroy();
+    AM.updatePassword(email, nPass, (e, o) => {
+      if (o) {
+        res.status(200).send('ok');
+      } else {
+        res.status(400).send('unable to update password');
       }
     });
   });
