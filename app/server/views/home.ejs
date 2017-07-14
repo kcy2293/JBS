@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <% include ./head.ejs %>
 </head>
 <body>
-  This is home page.
+  <div id="wrapper">
+    <% include ./nav.ejs %>
+  </div>
+
+  <script src="/vendor/jquery-2.2.3.min.js"></script>
+  <script src="/vendor/jquery.form.min.js"></script>
+  <script src="/vendor/bootstrap.min.js"></script>
 </body>
 </html>

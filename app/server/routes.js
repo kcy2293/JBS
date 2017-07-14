@@ -105,7 +105,8 @@ module.exports = function(app) {
       res.redirect('/');
     } else {
       res.render('home', {
-        title: 'Home'
+        title: 'Home',
+        nav: 'home'
       });
     }
   });
