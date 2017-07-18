@@ -105,7 +105,7 @@ module.exports = function(app) {
       res.redirect('/');
     } else {
       res.render('home', {
-        title: 'Home',
+        title: 'Dashboard',
         nav: 'home'
       });
     }
